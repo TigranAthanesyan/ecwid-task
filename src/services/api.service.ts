@@ -1,6 +1,6 @@
 import { PUBLIC_BEARER_TOKEN, STORE_ID, URL_ROOT } from "@/constants/global-constants";
-import type { CategoriesDTO, ICategory } from "@/interfaces/category-interfaces";
-import type { IProductsDTO } from "@/interfaces/product-interfaces";
+import type { CategoriesDTO } from "@/interfaces/category-interfaces";
+import type { ProductsDTO } from "@/interfaces/product-interfaces";
 
 export class ApiService {
 	private headers: HeadersInit;
@@ -31,7 +31,7 @@ export class ApiService {
 		return this.get('categories');
 	}
 
-	public getProducts(): Promise<IProductsDTO> {
+	public getProducts(): Promise<ProductsDTO> {
 		return this.get(`products`);
 	}
 }

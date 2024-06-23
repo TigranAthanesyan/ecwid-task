@@ -94,6 +94,7 @@ export class EventHandlersService {
 	public onCartMount() {
 		this.globalStore.setTitle('Корзина');
 		this.globalStore.setShowCart(false);
+		this.categoryStore.setCurrentCategoryId(0)
 	}
 
 	public onCartUnmount() {

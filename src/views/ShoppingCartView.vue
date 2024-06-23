@@ -100,7 +100,7 @@ const doTransaction = (): void => {
 
   .order-details {
     position: fixed;
-    top: 100px;
+    top: 120px;
     right: 48px;
     min-width: 300px;
     display: flex;
@@ -127,7 +127,7 @@ const doTransaction = (): void => {
       width: fit-content;
       padding: 12px 16px;
       font-size: 20px;
-      background-color: #c0c0c0;
+      background-color: var(--primary-color);
       border-radius: 16px;
       color: #ffffff;
 

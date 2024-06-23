@@ -1,6 +1,6 @@
 import { ref, watch } from "vue";
 import { defineStore } from "pinia";
-import type { IProduct, IProductsDTO } from "@/interfaces/product-interfaces";
+import type { IProduct, ProductsDTO } from "@/interfaces/product-interfaces";
 
 
 export const useProductStore = defineStore('productStore', () => {
@@ -14,7 +14,7 @@ export const useProductStore = defineStore('productStore', () => {
 
 	const product = ref<IProduct | null>(null);
 
-	function setProducts(data: IProductsDTO): void {
+	function setProducts(data: ProductsDTO): void {
 		allProducts.value = data.items;
 	}
 
