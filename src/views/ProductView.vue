@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, watch } from 'vue'
+import { inject, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useProductStore } from '@/stores/productStore'
@@ -19,6 +19,17 @@ eventHandlers.onProductIdRouteChange(Number(useRoute().params?.productId))
 const count = ref<number>(
   productIds.value.filter((id) => id === (product.value as IProduct)?.id).length
 )
+
+onMounted(() => {
+  if (product.value) {
+    eventHandlers.onProductMount(product.value)
+  } else {
+    watch(
+      () => product.value,
+      (p) => eventHandlers.onProductMount(p as IProduct)
+    )
+  }
+})
 
 watch(
   () => productIds,
@@ -59,7 +70,6 @@ watch(
             :disabled="!productIds.includes(product.id)"
           />
         </div>
-        <button type="button" class="back-button" @click="eventHandlers.onGoBack">Назад</button>
       </div>
     </div>
   </div>
@@ -79,56 +89,48 @@ watch(
   width: 100%;
   display: flex;
   gap: 16px;
-
-  border: 2px solid #eeeeee;
+  border: 2px solid var(--secondary-color);
   border-radius: 8px;
   box-sizing: border-box;
 
   .img-wrapper {
-    width: 400px;
+    height: 100%;
     flex-shrink: 0;
+    box-sizing: border-box;
 
     img {
-      width: 100%;
-      height: auto;
+      height: 100%;
+      width: auto;
       border-radius: 8px;
     }
   }
 
   .content {
-    /* margin-top: auto; */
-    /* margin-bottom: auto; */
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
+    width: fit-content;
+    padding-right: 16px;
+
+    .name {
+      font-size: 22px;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: 700;
+    }
 
     .cart {
       display: flex;
       align-items: center;
       gap: 8px;
-
-      div {
-        /* color: #008000; */
-      }
     }
 
     .buttons {
+      margin-top: 8px;
       display: flex;
-      gap: 24px;
-    }
-
-    .back-button {
-      width: fit-content;
-      padding: 8px;
-    }
-  }
-
-  .right {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-
-    .count {
+      gap: 32px;
     }
   }
 }

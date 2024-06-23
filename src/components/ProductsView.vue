@@ -5,6 +5,7 @@ import { useProductStore } from '../stores/productStore'
 import ProductItemView from '@/components/ProductItemView.vue'
 import type { EventHandlersService } from '@/services/event-handlers.service'
 import { EVENT_HANDLERS_SERVICE_KEY } from '@/constants/global-constants'
+
 const { productsOfCurrentCategory } = storeToRefs(useProductStore())
 const eventHandlers = inject(EVENT_HANDLERS_SERVICE_KEY) as EventHandlersService
 </script>
@@ -28,13 +29,13 @@ const eventHandlers = inject(EVENT_HANDLERS_SERVICE_KEY) as EventHandlersService
 .products-container {
   flex: 1;
   padding: 16px;
-}
-.products {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 6px;
-  height: 100%;
-  overflow: auto;
+
+  .products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 6px;
+    overflow: auto;
+  }
 }
 </style>

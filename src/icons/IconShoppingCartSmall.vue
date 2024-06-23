@@ -1,7 +1,7 @@
 <template>
   <svg
     id="shopping-cart-icon"
-    fill="#133337"
+    fill="var(--primary-color)"
     version="1.1"
     width="22px"
     height="22px"

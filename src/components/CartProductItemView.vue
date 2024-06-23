@@ -1,39 +1,57 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia' 
-import IconDelete from '@/icons/IconDelete.vue'
-import type { IProduct } from '@/interfaces/product-interfaces'
+import { ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useShoppingCartStore } from '@/stores/shoppingCartStore'
-import CircleButtonView from './CircleButtonView.vue'
+import { getProductName } from '@/services/utils'
+import type { IProduct } from '@/interfaces/product-interfaces'
+import CircleButtonView from '@/components/CircleButtonView.vue'
+import IconShoppingCartSmall from '@/icons/IconShoppingCartSmall.vue'
+import IconDelete from '@/icons/IconDelete.vue'
 
-defineProps<{
+const props = defineProps<{
   item: IProduct
   onProductClick: () => void
   onAddClick: () => void
   onReduceClick: () => void
-  count?: number
-  onRemoveClick?: () => void
+  onRemoveClick: () => void
 }>()
 
 const { productIds } = storeToRefs(useShoppingCartStore())
 
-const displayName = (name: string): string => {
-  if (name.startsWith(PRODUCT_PREFIX)) {
-    return name.slice(PRODUCT_PREFIX.length)
-  }
-  return name
-}
+const count = ref<number>(productIds.value.filter((id) => id === props.item.id).length)
+
+watch(
+  () => productIds,
+  (ids) => {
+    count.value = ids.value.filter((id) => id === props.item.id).length
+  },
+  { deep: true }
+)
 </script>
 
 <template>
-  <div class="cart-product-item" @click="onProductClick">
+  <div class="product-item" @click="onProductClick">
     <div class="img-wrapper">
       <img v-bind:src="item.imageUrl" v-bind:alt="item.name" />
     </div>
+
     <div class="content">
-      <div class="name">{{ displayName(item.name) }}</div>
+      <div class="name">{{ getProductName(item.name) }}</div>
+
       <div class="price">{{ item.price }} &#8381;</div>
+
+      <div class="cart">
+        <IconShoppingCartSmall />
+        <div v-if="count > 0">{{ count }}x - {{ item.price * count }} &#8381;</div>
+      </div>
+
       <div class="buttons">
-        <CircleButtonView :text="'+'" :on-click="onAddClick" :disabled="false" />
+        <CircleButtonView
+          :text="'+'"
+          :on-click="onAddClick"
+          :disabled="false"
+        />
+
         <CircleButtonView
           :text="'-'"
           :on-click="onReduceClick"
@@ -41,9 +59,17 @@ const displayName = (name: string): string => {
         />
       </div>
     </div>
-    <div v-if="count" class="right">
-      <div class="count">{{ count }}</div>
-      <button type="button" class="delete-btn" @click="onRemoveClick">
+
+    <div class="right">
+      <button
+        class="delete-btn"
+        @click="
+          (e) => {
+            e.stopPropagation()
+            onRemoveClick()
+          }
+        "
+      >
         <IconDelete />
       </button>
     </div>
@@ -51,14 +77,14 @@ const displayName = (name: string): string => {
 </template>
 
 <style scoped>
-.cart-product-item {
+.product-item {
   height: 200px;
-  width: 100%;
-  max-width: 700px;
+  width: 560px;
   display: flex;
   gap: 16px;
-  border: 2px solid #eeeeee;
+  border: 2px solid var(--secondary-color);
   border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   padding: 8px;
   transition: transform 0.2s ease;
@@ -90,12 +116,22 @@ const displayName = (name: string): string => {
     .name {
       font-size: 22px;
       line-height: 1;
+
+      span {
+        color: #0000ff;
+      }
     }
 
     .price {
       font-size: 18px;
+      font-weight: 600;
       line-height: 1;
-      color: #0a75ad;
+    }
+
+    .cart {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .buttons {
@@ -105,16 +141,12 @@ const displayName = (name: string): string => {
   }
 
   .right {
-    display: flex;
-    gap: 16px;
-    align-items: center;
+    margin-left: auto;
 
-    .count {
-    }
-  }
-  .delete-btn {
-    &:hover {
-      transform: scale(1.1);
+    .delete-btn {
+      &:hover {
+        transform: scale(1.1);
+      }
     }
   }
 }

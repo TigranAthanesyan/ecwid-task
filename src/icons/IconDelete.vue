@@ -3,11 +3,11 @@
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     viewBox="0,0,256,256"
-    width="40px"
-    height="40px"
+    width="24px"
+    height="24px"
   >
     <g
-      fill="#ff0000"
+      fill="#c0c0c0"
       fill-rule="nonzero"
       stroke="none"
       stroke-width="1"

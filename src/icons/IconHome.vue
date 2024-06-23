@@ -7,7 +7,7 @@
     height="48px"
   >
     <g
-      fill="#133337"
+      fill="var(--primary-color)"
       fill-rule="nonzero"
       stroke="none"
       stroke-width="1"
@@ -25,7 +25,7 @@
       <path d="M0,256v-256h256v256z" id="bgRectangle"></path>
     </g>
     <g
-      fill="#eeeeee"
+      fill="var(--secondary-color)"
       fill-rule="nonzero"
       stroke="none"
       stroke-width="1"

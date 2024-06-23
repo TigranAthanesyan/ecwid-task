@@ -13,7 +13,6 @@ export class ApiService {
 			Authorization: PUBLIC_BEARER_TOKEN,
 		};
 		this.mainRoute = `${URL_ROOT}${STORE_ID}/`;
-		console.log('Api service constructor');
 	}
 
 	private get<T>(path: string): Promise<T> {
@@ -32,11 +31,7 @@ export class ApiService {
 		return this.get('categories');
 	}
 
-	public getCategory(categoryId: number): Promise<ICategory> {
-		return this.get(`categories/${categoryId}`);
-	}
-
-	public getProducts(categoryId?: number): Promise<IProductsDTO> {
-		return this.get(`products${categoryId ? `?categories=${categoryId}` : ''}`);
+	public getProducts(): Promise<IProductsDTO> {
+		return this.get(`products`);
 	}
 }

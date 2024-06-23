@@ -1,19 +1,18 @@
 import { watch } from "vue";
 import router from "@/router";
 import { ApiService } from "./api.service";
-// import type { BusinessService } from "./business.service";
 import { useCategoryStore } from "@/stores/categoryStore";
 import { useProductStore } from "@/stores/productStore";
 import { useShoppingCartStore } from "@/stores/shoppingCartStore";
+import { useGlobalStore } from "@/stores/globalStore";
 import type { IProduct } from "@/interfaces/product-interfaces";
 import type { ICategory } from "@/interfaces/category-interfaces";
 import { LOCAL_STORAGE_PRODUCT_IDS } from "@/constants/global-constants";
+import { getProductName } from "./utils";
 
 
 export class EventHandlersService {
 	private apiService: ApiService;
-
-	// private businessService: BusinessService;
 
 	private categoryStore = useCategoryStore();
 
@@ -21,14 +20,13 @@ export class EventHandlersService {
 
 	private shoppingCartStore = useShoppingCartStore();
 
+	private globalStore = useGlobalStore();
+
 	constructor({
 		apiService,
-		// businessService,
 	}: {
 		apiService: ApiService,
-		// businessService?: BusinessService,
 	}) {
-		console.log('Event handlers service constructor');
 		this.apiService = apiService;
 
 		const productIdsStr = localStorage.getItem(LOCAL_STORAGE_PRODUCT_IDS) || '';
@@ -77,12 +75,36 @@ export class EventHandlersService {
 		}
 	}
 
+	public onRouteChange() {
+		this.globalStore.setBackEnabled(window.history.state.back);
+	}
+
+	public onHomeMount() {
+		this.globalStore.setTitle('Главная') 
+	}
+
+	public onCategoryMount(category: ICategory) {
+		this.globalStore.setTitle(category.name)
+	}
+
+	public onProductMount(product: IProduct) {
+		this.globalStore.setTitle(getProductName(product.name));
+	}
+
+	public onCartMount() {
+		this.globalStore.setTitle('Корзина');
+		this.globalStore.setShowCart(false);
+	}
+
+	public onCartUnmount() {
+		this.globalStore.setShowCart(true);
+	}
+
 	public onCategoryRouteChange(newCategoryId: number) {
 		this.categoryStore.setCurrentCategoryId(newCategoryId)
 	}
 
 	public onProductIdRouteChange(productId: number) {
-		console.log('changed to ', productId)
 		this.productStore.setProductId(productId);
 	}
 
@@ -116,6 +138,8 @@ export class EventHandlersService {
 	}
 
 	public onGoBack() {
-		router.back();
+		if (window.history.state.back !== null) {
+			router.back();
+		}
 	}
 }

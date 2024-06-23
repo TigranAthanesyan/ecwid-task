@@ -8,7 +8,6 @@ defineProps<{
 
 <template>
   <button
-    type="button"
     class="circle-button"
     :disabled="disabled"
     @click="

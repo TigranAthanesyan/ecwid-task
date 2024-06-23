@@ -1,10 +1,10 @@
 <template>
   <svg
     id="shopping-cart-icon"
-    fill="#eeeeee"
+    fill="var(--primary-color)"
     version="1.1"
-    width="56px"
-    height="56px"
+    width="48px"
+    height="48px"
     viewBox="0 0 902.86 902.86"
     xml:space="preserve"
   >

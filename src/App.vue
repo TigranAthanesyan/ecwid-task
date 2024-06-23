@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -9,6 +9,11 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style>
+:root {
+  --primary-color: #133337;
+  --secondary-color: #eeeeee;
+  --secondary-disabled-color: #6c757d;
+}
 body {
   height: 100vh;
   margin: 0;
@@ -25,7 +30,7 @@ div {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-  color: #133337;
+  color: var(--primary-color);
 }
 button {
   margin: 0;
@@ -49,31 +54,7 @@ button {
   display: flex;
   width: 100%;
   height: 100%;
-  /* padding: 16px; */
   box-sizing: border-box;
   font-family: sans-serif;
-}
-
-:root {
-  --primary-color: #007bff;
-  --secondary-color: #6c757d;
-  --success-color: #28a745;
-  --danger-color: #dc3545;
-  --warning-color: #ffc107;
-  --info-color: #17a2b8;
-  --light-color: #f8f9fa;
-  --dark-color: #343a40;
-
-  --primary-bg-color: #007bff;
-  --secondary-bg-color: #6c757d;
-  --success-bg-color: #28a745;
-  --danger-bg-color: #dc3545;
-  --warning-bg-color: #ffc107;
-  --info-bg-color: #17a2b8;
-  --light-bg-color: #f8f9fa;
-  --dark-bg-color: #343a40;
-
-  --text-primary-color: #ffffff;
-  --text-secondary-color: #212529;
 }
 </style>

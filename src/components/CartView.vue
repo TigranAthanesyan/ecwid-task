@@ -11,15 +11,19 @@ const { onCartIconClick } = inject(EVENT_HANDLERS_SERVICE_KEY) as EventHandlersS
 </script>
 
 <template>
-    <button @click="onCartIconClick"><IconShoppingCart /></button>
+  <button class="cart-item" @click="onCartIconClick">
+    <IconShoppingCart />
+    <div>{{ productIds.length }}</div>
+  </button>
 </template>
 
 <style scoped>
-button {
-  border: none;
-  padding: 0;
-  background: transparent;
-  cursor: pointer;
+.cart-item {
+  display: flex;
+  gap: 4px;
+  align-items: start;
+  font-size: 20px;
+  font-weight: 600;
 
   &:hover {
     transform: scale(1.05);

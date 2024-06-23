@@ -26,12 +26,11 @@ nav ul {
   flex-direction: column;
   gap: 8px;
   padding: 0;
-  /* padding: 24px 32px; */
 }
 
 nav ul li a {
   text-decoration: none;
-  color: #eeeeee;
+  color: var(--secondary-color);
   font-size: 18px;
 
   &.disabled {

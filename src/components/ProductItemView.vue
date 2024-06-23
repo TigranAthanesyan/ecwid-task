@@ -1,11 +1,10 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import IconDelete from '@/icons/IconDelete.vue'
 import type { IProduct } from '@/interfaces/product-interfaces'
 import { useShoppingCartStore } from '@/stores/shoppingCartStore'
 import CircleButtonView from './CircleButtonView.vue'
 import IconShoppingCartSmall from '@/icons/IconShoppingCartSmall.vue'
-import { ref, watch } from 'vue'
 import { getProductName } from '@/services/utils'
 
 const props = defineProps<{
@@ -13,7 +12,6 @@ const props = defineProps<{
   onProductClick: () => void
   onAddClick: () => void
   onReduceClick: () => void
-  onRemoveClick?: () => void
 }>()
 
 const { productIds } = storeToRefs(useShoppingCartStore())
@@ -42,11 +40,16 @@ watch(
 
       <div class="cart">
         <IconShoppingCartSmall />
-        <div v-if="count > 0">{{ count }}x - {{ item.price * count }} &#8381;</div>
+        <div v-if="count > 0">{{ count }}</div>
       </div>
 
       <div class="buttons">
-        <CircleButtonView :text="'+'" :on-click="onAddClick" :disabled="false" />
+        <CircleButtonView
+          :text="'+'"
+          :on-click="onAddClick"
+          :disabled="false"
+        />
+
         <CircleButtonView
           :text="'-'"
           :on-click="onReduceClick"
@@ -54,25 +57,21 @@ watch(
         />
       </div>
     </div>
-
-    <!-- <div v-if="count" class="right">
-      <div class="count">{{ count }}</div>
-      <button type="button" class=" delete-btn" @click="onRemoveClick">
-        <IconDelete />
-      </button>
-    </div> -->
   </div>
 </template>
 
 <style scoped>
 .product-item {
-  height: 200px;
-  width: 100%;
+  height: fit-content;
+  width: 200px;
+  flex-shrink: 0;
   max-width: 500px;
   display: flex;
+  flex-direction: column;
   gap: 16px;
-  border: 2px solid #eeeeee;
+  border: 2px solid var(--secondary-color);
   border-radius: 8px;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   padding: 8px;
   transition: transform 0.2s ease;
@@ -84,11 +83,11 @@ watch(
   }
 
   .img-wrapper {
-    height: 100%;
+    width: 100%;
 
     img {
-      height: 100%;
-      width: auto;
+      width: 100%;
+      height: auto;
       border-radius: 8px;
     }
   }
@@ -98,11 +97,12 @@ watch(
     margin-bottom: auto;
     display: flex;
     flex-direction: column;
-    gap: 16px;
     align-items: start;
+    gap: 16px;
 
     .name {
       font-size: 22px;
+      font-weight: 500;
       line-height: 1;
 
       span {
@@ -112,6 +112,7 @@ watch(
 
     .price {
       font-size: 18px;
+      font-weight: 600;
       line-height: 1;
     }
 
@@ -119,10 +120,6 @@ watch(
       display: flex;
       align-items: center;
       gap: 8px;
-
-      div {
-        /* color: #008000; */
-      }
     }
 
     .buttons {
@@ -130,10 +127,5 @@ watch(
       gap: 24px;
     }
   }
-  /* .delete-btn {
-    &:hover {
-      transform: scale(1.1);
-    }
-  } */
 }
 </style>
