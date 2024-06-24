@@ -8,13 +8,18 @@ import type { EventHandlersService } from '@/services/event-handlers.service'
 import { EVENT_HANDLERS_SERVICE_KEY } from '@/constants/global-constants'
 import { getProductName } from '@/services/utils'
 import type { IProduct } from '@/interfaces/product-interfaces'
-import CircleButtonView from '@/components/CircleButtonView.vue'
+import ButtonView from '@/components/ButtonView.vue'
 import IconShoppingCartSmall from '@/icons/IconShoppingCartSmall.vue'
 
 const { product } = storeToRefs(useProductStore())
 const { productIds } = storeToRefs(useShoppingCartStore())
+
 const eventHandlers = inject(EVENT_HANDLERS_SERVICE_KEY) as EventHandlersService
-eventHandlers.onProductIdRouteChange(Number(useRoute().params?.productId))
+
+const productIdFromRoute = Number(useRoute().params?.productId)
+if (productIdFromRoute) {
+  eventHandlers.onProductIdRouteChange(productIdFromRoute)
+}
 
 const count = ref<number>(
   productIds.value.filter((id) => id === (product.value as IProduct)?.id).length
@@ -59,13 +64,15 @@ watch(
         </div>
 
         <div class="buttons">
-          <CircleButtonView
-            :text="'+'"
+          <ButtonView
+            type="circle"
+            text="+"
             :on-click="() => eventHandlers.onAddProduct(product as IProduct)"
-            :disabled="false"
           />
-          <CircleButtonView
-            :text="'-'"
+
+          <ButtonView
+            type="circle"
+            text="-"
             :on-click="() => eventHandlers.onReduceProduct(product?.id as number)"
             :disabled="!productIds.includes(product.id)"
           />

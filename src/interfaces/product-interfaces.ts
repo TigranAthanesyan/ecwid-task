@@ -5,6 +5,7 @@ export interface IProduct {
 	price: number;
 	defaultDisplayedPriceFormatted: string;
 	imageUrl: string;
+	categoryIds: number[];
 }
 
 export type ProductsDTO = {

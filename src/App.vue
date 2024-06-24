@@ -13,6 +13,7 @@ import { RouterView } from 'vue-router'
   --primary-color: #133337;
   --secondary-color: #eeeeee;
   --secondary-disabled-color: #6c757d;
+  --accept-color: #008000;
 }
 body {
   height: 100vh;

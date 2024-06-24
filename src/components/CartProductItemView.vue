@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useShoppingCartStore } from '@/stores/shoppingCartStore'
 import { getProductName } from '@/services/utils'
 import type { IProduct } from '@/interfaces/product-interfaces'
-import CircleButtonView from '@/components/CircleButtonView.vue'
+import ButtonView from '@/components/ButtonView.vue'
 import IconShoppingCartSmall from '@/icons/IconShoppingCartSmall.vue'
 import IconDelete from '@/icons/IconDelete.vue'
 
@@ -46,14 +46,15 @@ watch(
       </div>
 
       <div class="buttons">
-        <CircleButtonView
-          :text="'+'"
+        <ButtonView
+          type="circle"
+          text="+"
           :on-click="onAddClick"
-          :disabled="false"
         />
 
-        <CircleButtonView
-          :text="'-'"
+        <ButtonView
+          type="circle"
+          text="-"
           :on-click="onReduceClick"
           :disabled="!productIds.includes(item.id)"
         />

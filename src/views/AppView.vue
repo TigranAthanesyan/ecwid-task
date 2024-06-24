@@ -47,6 +47,7 @@ watch(
 
     .main-content {
       overflow-y: auto;
+      height: 100%;
     }
   }
 }

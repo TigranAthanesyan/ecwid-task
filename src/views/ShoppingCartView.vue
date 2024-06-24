@@ -7,6 +7,7 @@ import type { EventHandlersService } from '@/services/event-handlers.service'
 import { useShoppingCartStore } from '@/stores/shoppingCartStore'
 import { getProductsWithCorrectEnding } from '@/services/utils'
 import IconShoppingCart from '@/icons/IconShoppingCart.vue'
+import ButtonView from '@/components/ButtonView.vue'
 
 const { products, totalCount, totalPrice } = storeToRefs(useShoppingCartStore())
 const eventHandlers = inject(EVENT_HANDLERS_SERVICE_KEY) as EventHandlersService
@@ -44,16 +45,19 @@ const doTransaction = (): void => {
     <div class="order-details">
       <IconShoppingCart />
 
-      <div v-if="totalCount > 0">
+      <div v-if="totalCount > 0" class="text">
         <div>В корзине {{ totalCount }} {{ getProductsWithCorrectEnding(totalCount) }}</div>
         <div>Общая сумма: {{ totalPrice }} &#8381;</div>
       </div>
 
-      <div v-else>Ваша корзина пуста</div>
+      <div v-else class="text">Ваша корзина пуста</div>
 
-      <button v-if="totalCount > 0" class="order-button" @click="() => (isModalOpen = true)">
-        Заказать
-      </button>
+      <ButtonView
+        v-if="totalCount > 0"
+        type="primary"
+        text="Заказать"
+        :on-click="() => (isModalOpen = true)"
+      />
     </div>
 
     <div v-show="isModalOpen" class="modal-overlay">
@@ -65,8 +69,17 @@ const doTransaction = (): void => {
           </div>
 
           <div class="buttons">
-            <button @click="doTransaction">Да</button>
-            <button @click="() => (isModalOpen = false)">Нет</button>
+            <ButtonView
+              type="primary"
+              text="Да"
+              :on-click="doTransaction"
+            />
+
+            <ButtonView
+              type="secondary"
+              text="Нет"
+              :on-click="() => (isModalOpen = false)"
+            />
           </div>
         </div>
 
@@ -74,7 +87,11 @@ const doTransaction = (): void => {
 
         <div v-if="transactionState === 'done'" class="modal-content">
           <div>Ваш заказ выполнен успешно!</div>
-          <button @click="eventHandlers.onTransactionComplete">Хорошо</button>
+          <ButtonView
+            type="primary"
+            text="Хорошо"
+            :on-click="() => eventHandlers.onTransactionComplete()"
+          />
         </div>
       </div>
     </div>
@@ -116,24 +133,11 @@ const doTransaction = (): void => {
     margin-left: auto;
     margin-right: auto;
 
-    div {
+    .text {
+      margin-bottom: 32px;
       font-size: 20px;
       font-weight: 500;
       line-height: 40px;
-    }
-
-    .order-button {
-      margin-top: 30px;
-      width: fit-content;
-      padding: 12px 16px;
-      font-size: 20px;
-      background-color: var(--primary-color);
-      border-radius: 16px;
-      color: #ffffff;
-
-      &:hover {
-        transform: scale(1.05);
-      }
     }
   }
 }
@@ -174,21 +178,9 @@ const doTransaction = (): void => {
       font-size: 22px;
       line-height: 32px;
 
-      button {
-        &:hover {
-          transform: scale(1.1);
-        }
-      }
-
       .buttons {
         display: flex;
         gap: 32px;
-
-        button {
-          &:hover {
-            transform: scale(1.1);
-          }
-        }
       }
     }
   }
