@@ -7,7 +7,7 @@ import type { ICategory } from '@/interfaces/category-interfaces'
 import type { EventHandlersService } from '@/services/event-handlers.service'
 import { useCategoryStore } from '@/stores/categoryStore'
 
-const route= useRoute();
+const route = useRoute()
 const { currentCategory } = storeToRefs(useCategoryStore())
 const eventHandlers = inject(EVENT_HANDLERS_SERVICE_KEY) as EventHandlersService
 
@@ -22,16 +22,16 @@ onMounted(() => {
     (cat) => eventHandlers.onCategoryMount(cat as ICategory)
   )
   watch(
-  () => route.params.categoryId,
-  (newId) => eventHandlers.onCategoryRouteChange(Number(newId))
-)
+    () => route.params.categoryId,
+    (newId) => eventHandlers.onCategoryRouteChange(Number(newId))
+  )
 })
 </script>
 
 <template>
   <div class="category-details">
     <div class="image-wrapper">
-      <img v-bind:src="currentCategory?.originalImage.url" />
+      <img v-bind:src="currentCategory?.imageUrl" />
     </div>
   </div>
 </template>
