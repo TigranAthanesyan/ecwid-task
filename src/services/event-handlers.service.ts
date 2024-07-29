@@ -29,7 +29,7 @@ export class EventHandlersService {
 	}) {
 		this.apiService = apiService;
 
-		const productIdsStr = localStorage.getItem(LOCAL_STORAGE_PRODUCT_IDS) || '';
+		const productIdsStr = localStorage.getItem(LOCAL_STORAGE_PRODUCT_IDS) || '{}';
 		const productIds: number[] = JSON.parse(productIdsStr);
 		if (productIds.length) {
 			const stopWatch = watch(() => this?.productStore?.allProducts, (allProducts) => {
